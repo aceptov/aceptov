@@ -3,6 +3,10 @@
   --bg: #0a0a0a;
   --fg: #f2f2f2;
   --muted: #bdbdbd;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
   --toggle-x: 0px;
   --toggle-scale: 1;
   --bg-image: url("background.jpg");
@@ -130,14 +134,14 @@ html, body {
 }
 
 body {
-  display: grid;
-  place-items: center;
-  overflow-x: hidden;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-  touch-action: pan-y;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
   background: var(--bg) var(--bg-image) center/cover no-repeat fixed;
-  position: relative;
+  position: fixed;
+  inset: 0;
+  padding: var(--safe-top) var(--safe-right) var(--safe-bottom) var(--safe-left);
   isolation: isolate;
 }
 
@@ -196,6 +200,12 @@ body::after {
   padding: 24px;
   position: relative;
   z-index: 2;
+  max-height: calc(100vh - var(--safe-top) - var(--safe-bottom));
+  max-height: calc(100dvh - var(--safe-top) - var(--safe-bottom));
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
+  padding-bottom: calc(24px + var(--safe-bottom));
 }
 
 .page::before {
